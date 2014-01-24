@@ -9,7 +9,7 @@
 ;; ("melpa" . "http://melpa.milkbox.net/packages/")
 ))
 
-(add-to-list 'default-frame-alist '(font . "M+ 1mn-13"))
+(add-to-list 'default-frame-alist '(font . "Inconsolata-13"))
 
 ;; -- Path -----------------------------------------------------------------------------------------------
 ;; find XCode and RVM command line tools on OSX (cover the legacy and current XCode directory structures.)
@@ -121,9 +121,6 @@
 
 ;; Rainbow delimiters for all prog modes
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
-
-;; Git gutter global mode
-(add-hook 'prog-mode-hook 'git-gutter-mode)
 
 ;; Smoother scrolling (no multiline jumps.)
 ;(setq redisplay-dont-pause t
@@ -241,7 +238,8 @@
 (evil-leader/set-key "p" 'switch-to-prev-buffer)
 (evil-leader/set-key ":" 'helm-complex-command-history)
 
-(evil-leader/set-key "f" 'ace-jump-mode)
+(evil-leader/set-key "f" 'projectile-find-file)
+(evil-leader/set-key "a" 'ag-project)
 
 (evil-leader/set-key "/" 'evilnc-comment-or-uncomment-lines)
 
