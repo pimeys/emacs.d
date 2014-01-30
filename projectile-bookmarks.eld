@@ -1,1 +1,1 @@
-("~/code/ruby/engine/" "~/.emacs.d/" "~/dotfiles/")
+("~/code/ruby/sws/" "~/code/ruby/acp/" "~/code/ruby/ofw/" "~/code/ruby/star/" "~/code/ruby/bre/" "~/code/ruby/ams/" "~/code/ruby/sbl/" "~/code/ruby/sng/" "~/.emacs.d/" "~/code/ruby/engine/" "~/dotfiles/")
