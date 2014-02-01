@@ -50,6 +50,8 @@
 ;; Set to <your Dropbox root directory>/MobileOrg.
 (setq org-mobile-directory "~/Dropbox/Apps/MobileOrg")
 
+(setq tramp-default-method "ssh")
+
 ; we want a couple of languages in Babel
 (org-babel-do-load-languages
  'org-babel-load-languages

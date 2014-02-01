@@ -1,1 +1,1 @@
-("~/code/ruby/sws/" "~/code/ruby/acp/" "~/code/ruby/ofw/" "~/code/ruby/star/" "~/code/ruby/bre/" "~/code/ruby/ams/" "~/code/ruby/sbl/" "~/code/ruby/sng/" "~/.emacs.d/" "~/code/ruby/engine/" "~/dotfiles/")
+("/ssh:ams@staging.sponsorpay.com:/var/app/ams/releases/20140130172407" "~/.emacs.d/" "~/code/python/graphite-web/" "~/code/ruby/sws/" "~/code/ruby/acp/" "~/code/ruby/ofw/" "~/code/ruby/star/" "~/code/ruby/bre/" "~/code/ruby/ams/" "~/code/ruby/sbl/" "~/code/ruby/sng/" "~/code/ruby/engine/" "~/dotfiles/")
