@@ -66,6 +66,14 @@
   (menu-bar-mode -1)
 )
 
+;; Ruby mode
+(autoload 'ruby-mode "ruby-mode" "Ruby mode" t )
+(setq auto-mode-alist (cons '("\\.rb\\'" . ruby-mode) auto-mode-alist))
+(setq auto-mode-alist (cons '("\\.rake\\'" . ruby-mode) auto-mode-alist))
+(setq auto-mode-alist (cons '("Gemfile" . ruby-mode) auto-mode-alist))
+(setq auto-mode-alist (cons '("Rakefile" . ruby-mode) auto-mode-alist))
+(add-hook 'ruby-mode-hook '(lambda () (font-lock-mode 1)))
+
 (setq frame-title-format '("%b %I %+%@%t%Z %m %n %e"))
 
 ;; Explicitly require libs that autoload borks
@@ -79,6 +87,7 @@
 (require 'multiple-cursors)
 (require 'js2-refactor)
 (require 'helm)
+(require 'git-gutter-fringe+)
 
 ;; Modes init (things that need more than just a require.) 
 (when (string-match "Emacs 24" (version))
@@ -183,11 +192,10 @@
 (require 'powerline)
 (powerline-default-theme)
 (require 'visual-progress-mode)
-;;(load-theme 'soothe t)
 
-;; No tabs, only 4 spaces, as default
+;; No tabs, only 2 spaces, as default
 (setq-default indent-tabs-mode nil)
-(setq tab-width 4)
+(setq tab-width 2)
 
 ;; Kill the welcome buffer
 (setq inhibit-startup-message t)
@@ -196,7 +204,6 @@
 (setq inhibit-splash-screen t)
 
 ;; Highlight current line
-(global-hl-line-mode 1)
 
 ;; Highlight indent, for python, maybe more
 (defun setup-indentation-mode ()
@@ -225,6 +232,7 @@
 ;; Load evil
 (require 'init-evil)
 
+(evil-leader/set-key "m" 'minimap-toggle)
 (evil-leader/set-key "n" 'new-buffer)
 
 (evil-leader/set-key "t" 'switch-to-previous-buffer)
@@ -297,11 +305,13 @@
 ;; After startup, show the recent open files
 (recentf-open-files)
 
-(global-hl-line-mode 0)
-(global-linum-mode -1)
-
 (helm-mode 1)
 (global-set-key (kbd "s-.") 'helm-complete-file-name-at-point)
+(global-linum-mode 0)
+(global-git-gutter+-mode t)
+(electric-indent-mode t)
+
+(modify-syntax-entry ?_ "w")
 
 (require 'init-hideshowvis)
 
@@ -329,6 +339,7 @@
  '(org-agenda-files (quote ("~/Dropbox/Todo/org/todos.org")))
  '(powerline-color1 "#1E1E1E")
  '(powerline-color2 "#111111")
+ '(safe-local-variable-values (quote ((encoding . utf-8))))
  '(send-mail-function (quote mailclient-send-it))
  '(syslog-debug-face (quote ((t :background unspecified :foreground "#2aa198" :weight bold))))
  '(syslog-error-face (quote ((t :background unspecified :foreground "#dc322f" :weight bold))))
@@ -493,7 +504,8 @@
 (add-hook 'cider-repl-mode-hook 'rainbow-delimiters-mode)
 
 
-
+(setq git-gutter-fr+-side 'right-fringe)
+(setq-default right-fringe-width 20)
 
 
 (eval-after-load 'web-mode
