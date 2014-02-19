@@ -76,6 +76,8 @@
 
 (setq frame-title-format '("%b %I %+%@%t%Z %m %n %e"))
 
+(setq x-select-enable-clipboard t)
+
 ;; Explicitly require libs that autoload borks
 ;; Include common lisp:
 (require 'cl) ;; one day can remove this...
@@ -478,6 +480,14 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:background nil)))))
 
+
+(add-hook 'go-mode-hook
+          (lambda ()
+            (setq indent-tabs-mode t)
+            (setq tab-width 2)))
+
+(setq auto-indent-on-visit-file t)
+(auto-indent-global-mode)
 
 (require 'web-mode)
 

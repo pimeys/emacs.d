@@ -1,0 +1,1 @@
+("~/code/ruby/sws/" "~/code/ruby/engine/" "~/.emacs.d/" "~/code/ruby/bre/" "~/code/ruby/sbl/" "~/dotfiles/" "~/code/ruby/acp/" "~/code/ruby/stg/" "~/code/ruby/ams/" "~/code/ruby/star/" "~/code/ruby/star_client/" "~/code/ruby/pee/" "~/code/ruby/ofw/" "~/code/ruby/sng/")

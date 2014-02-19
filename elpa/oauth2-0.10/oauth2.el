@@ -1,9 +1,9 @@
 ;;; oauth2.el --- OAuth 2.0 Authorization Protocol
 
-;; Copyright (C) 2011-2012 Free Software Foundation, Inc
+;; Copyright (C) 2011-2013 Free Software Foundation, Inc
 
 ;; Author: Julien Danjou <julien@danjou.info>
-;; Version: 0.9
+;; Version: 0.10
 ;; Keywords: comm
 
 ;; This file is part of GNU Emacs.
@@ -26,16 +26,16 @@
 ;; Implementation of the OAuth 2.0 draft.
 ;;
 ;; The main entry point is `oauth2-auth-and-store' which will return a token
-;; structure. This token structure can be then used with
-;; `oauth2-url-retrieve-synchronously' to retrieve any data that need OAuth
-;; authentication to be accessed.
+;; structure.  This token structure can be then used with
+;; `oauth2-url-retrieve-synchronously' or `oauth2-url-retrieve' to retrieve
+;; any data that need OAuth authentication to be accessed.
 ;;
 ;; If the token needs to be refreshed, the code handles it automatically and
 ;; store the new value of the access token.
 
 ;;; Code:
 
-(require 'cl)
+(eval-when-compile (require 'cl))
 (require 'plstore)
 (require 'json)
 (require 'url-http)
@@ -186,39 +186,85 @@ This allows to store the token in an unique way."
           (if (string-match-p "\?" url) "&" "?")
           "access_token=" (oauth2-token-access-token token)))
 
-;; Local variable from `url'
-;; defined here to avoid compile warning
-(defvar success)
+(defvar oauth--url-advice nil)
+(defvar oauth--token-data)
+
+;; FIXME: We should change URL so that this can be done without an advice.
+(defadvice url-http-handle-authentication (around oauth-hack activate)
+  (if (not oauth--url-advice)
+      ad-do-it
+    (let ((url-request-method url-http-method)
+          (url-request-data url-http-data)
+          (url-request-extra-headers url-http-extra-headers)))
+    (url-retrieve-internal (oauth2-url-append-access-token
+                            (oauth2-refresh-access (car oauth--token-data))
+                            (cdr oauth--token-data))
+                           url-callback-function
+                           url-callback-arguments)
+    ;; This is to make `url' think it's done.
+    (when (boundp 'success) (setq success t)) ;For URL library in Emacs<24.4.
+    (setq ad-return-value t)))                ;For URL library in Emacs≥24.4.
 
 ;;;###autoload
 (defun oauth2-url-retrieve-synchronously (token url &optional request-method request-data request-extra-headers)
-  "Retrieve an URL synchronously using TOKENS to access it.
-TOKENS can be obtained with `oauth2-auth'."
-  (let (tokens-need-renew)
-    (flet ((url-http-handle-authentication (proxy)
-                                           (setq tokens-need-renew t)
-                                           ;; This is to make `url' think
-                                           ;; it's done.
-                                           (setq success t)))
-      (let ((url-request-method request-method)
-            (url-request-data request-data)
-            (url-request-extra-headers request-extra-headers)
-            (url-buffer))
-        (setq url-buffer (url-retrieve-synchronously
-                           (oauth2-url-append-access-token token url)))
-        (if tokens-need-renew
-            (oauth2-url-retrieve-synchronously (oauth2-refresh-access token) url request-method request-data request-extra-headers)
-          url-buffer)))))
+  "Retrieve an URL synchronously using TOKEN to access it.
+TOKEN can be obtained with `oauth2-auth'."
+  (let* ((oauth--token-data (cons token url)))
+    (let ((oauth--url-advice t)         ;Activate our advice.
+          (url-request-method request-method)
+          (url-request-data request-data)
+          (url-request-extra-headers request-extra-headers))
+      (url-retrieve-synchronously
+       (oauth2-url-append-access-token token url)))))
+
+;;;###autoload
+(defun oauth2-url-retrieve (token url callback &optional
+                                  cbargs
+                                  request-method request-data request-extra-headers)
+  "Retrieve an URL asynchronously using TOKEN to access it.
+TOKEN can be obtained with `oauth2-auth'.  CALLBACK gets called with CBARGS
+when finished.  See `url-retrieve'."
+  ;; TODO add support for SILENT and INHIBIT-COOKIES.  How to handle this in `url-http-handle-authentication'.
+  (let* ((oauth--token-data (cons token url)))
+    (let ((oauth--url-advice t)         ;Activate our advice.
+          (url-request-method request-method)
+          (url-request-data request-data)
+          (url-request-extra-headers request-extra-headers))
+      (url-retrieve
+       (oauth2-url-append-access-token token url)
+       callback cbargs))))
 
 ;;;; ChangeLog:
 
+;; 2014-01-28  Rüdiger Sonderfeld  <ruediger@c-plusplus.de>
+;; 
+;; 	oauth2.el: Add support for async retrieve.
+;; 
+;; 	* packages/oauth2/oauth2.el (oauth--tokens-need-renew): Remove.
+;; 	 (oauth--token-data): New variable.
+;; 	 (url-http-handle-authentication): Call `url-retrieve-internal'
+;; 	 directly instead of depending on `oauth--tokens-need-renew'.
+;; 	 (oauth2-url-retrieve-synchronously): Call `url-retrieve' once.
+;; 	 (oauth2-url-retrieve): New function.
+;; 
+;; 	Signed-off-by: Rüdiger Sonderfeld <ruediger@c-plusplus.de> 
+;; 	Signed-off-by: Julien Danjou <julien@danjou.info>
+;; 
+;; 2013-07-22  Stefan Monnier  <monnier@iro.umontreal.ca>
+;; 
+;; 	* oauth2.el: Only require CL at compile time and avoid flet.
+;; 	(success): Don't defvar.
+;; 	(oauth--url-advice, oauth--tokens-need-renew): New dynbind variables.
+;; 	(url-http-handle-authentication): Add advice.
+;; 	(oauth2-url-retrieve-synchronously): Use the advice instead of flet.
+;; 
 ;; 2013-06-29  Julien Danjou  <julien@danjou.info>
 ;; 
 ;; 	oauth2: release 0.9, require url-http
-;; 	
-;; 	This is needed so that the `flet' calls doesn't restore the overriden
+;; 
+;; 	This is needed so that the `flet' calls doesn't restore the overriden 
 ;; 	function to an unbound one.
-;; 	
+;; 
 ;; 	Signed-off-by: Julien Danjou <julien@danjou.info>
 ;; 
 ;; 2012-08-01  Julien Danjou  <julien@danjou.info>
@@ -235,7 +281,8 @@ TOKENS can be obtained with `oauth2-auth'."
 ;; 
 ;; 2012-05-29  Julien Danjou  <julien@danjou.info>
 ;; 
-;; 	* packages/oauth2/oauth2.el: Revert fix URL double escaping, update to 0.5
+;; 	* packages/oauth2/oauth2.el: Revert fix URL double escaping, update to
+;; 	0.5
 ;; 
 ;; 2012-05-04  Julien Danjou  <julien@danjou.info>
 ;; 
@@ -248,24 +295,24 @@ TOKENS can be obtained with `oauth2-auth'."
 ;; 2011-12-20  Julien Danjou  <julien@danjou.info>
 ;; 
 ;; 	oauth2: update version 0.2
-;; 	
+;; 
 ;; 	* oauth2: update version to 0.2
 ;; 
 ;; 2011-12-20  Julien Danjou  <julien@danjou.info>
 ;; 
 ;; 	oauth2: allow to use any HTTP request type
-;; 	
+;; 
 ;; 	* oauth2: allow to use any HTTP request type
 ;; 
 ;; 2011-10-08  Julien Danjou  <julien@danjou.info>
 ;; 
 ;; 	* oauth2.el: Require json.
-;; 	Fix compilation warning with success variable from url.el.
+;; 	 Fix compilation warning with success variable from url.el.
 ;; 
 ;; 2011-09-26  Julien Danjou  <julien@danjou.info>
 ;; 
 ;; 	* packages/oauth2/oauth2.el (oauth2-request-authorization): Add missing
-;; 	calls to url-hexify-string.
+;; 	 calls to url-hexify-string.
 ;; 
 ;; 2011-09-26  Julien Danjou  <julien@danjou.info>
 ;; 

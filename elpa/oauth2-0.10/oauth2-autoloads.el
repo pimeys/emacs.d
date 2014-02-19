@@ -3,9 +3,9 @@
 ;;; Code:
 
 
-;;;### (autoloads (oauth2-url-retrieve-synchronously oauth2-auth-and-store
-;;;;;;  oauth2-auth oauth2-refresh-access) "oauth2" "oauth2.el" (20956
-;;;;;;  1476 0 0))
+;;;### (autoloads (oauth2-url-retrieve oauth2-url-retrieve-synchronously
+;;;;;;  oauth2-auth-and-store oauth2-auth oauth2-refresh-access)
+;;;;;;  "oauth2" "oauth2.el" (21252 30650 100430 646000))
 ;;; Generated autoloads from oauth2.el
 
 (autoload 'oauth2-refresh-access "oauth2" "\
@@ -25,14 +25,21 @@ Request access to a resource and store it using `plstore'.
 \(fn AUTH-URL TOKEN-URL RESOURCE-URL CLIENT-ID CLIENT-SECRET &optional REDIRECT-URI)" nil nil)
 
 (autoload 'oauth2-url-retrieve-synchronously "oauth2" "\
-Retrieve an URL synchronously using TOKENS to access it.
-TOKENS can be obtained with `oauth2-auth'.
+Retrieve an URL synchronously using TOKEN to access it.
+TOKEN can be obtained with `oauth2-auth'.
 
 \(fn TOKEN URL &optional REQUEST-METHOD REQUEST-DATA REQUEST-EXTRA-HEADERS)" nil nil)
 
+(autoload 'oauth2-url-retrieve "oauth2" "\
+Retrieve an URL asynchronously using TOKEN to access it.
+TOKEN can be obtained with `oauth2-auth'.  CALLBACK gets called with CBARGS
+when finished.  See `url-retrieve'.
+
+\(fn TOKEN URL CALLBACK &optional CBARGS REQUEST-METHOD REQUEST-DATA REQUEST-EXTRA-HEADERS)" nil nil)
+
 ;;;***
 
-;;;### (autoloads nil nil ("oauth2-pkg.el") (20956 1476 168929 0))
+;;;### (autoloads nil nil ("oauth2-pkg.el") (21252 30650 136671 92000))
 
 ;;;***
 
