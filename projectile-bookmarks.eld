@@ -1,1 +1,1 @@
-("~/code/ruby/ams/" "~/.emacs.d/" "~/code/ruby/ofw/" "~/code/ruby/engine/" "~/code/ruby/sws/" "~/dotfiles/" "~/code/ruby/bre/" "~/code/ruby/sbl/" "~/code/ruby/acp/" "~/code/ruby/stg/" "~/code/ruby/star/" "~/code/ruby/star_client/" "~/code/ruby/pee/" "~/code/ruby/sng/")
+("~/code/js/tictactoe/" "~/code/ruby/engine/" "~/.emacs.d/" "~/code/ruby/ams/" "~/code/ruby/ofw/" "~/code/ruby/sws/" "~/dotfiles/" "~/code/ruby/bre/" "~/code/ruby/sbl/" "~/code/ruby/acp/" "~/code/ruby/stg/" "~/code/ruby/star/" "~/code/ruby/star_client/" "~/code/ruby/pee/" "~/code/ruby/sng/")
