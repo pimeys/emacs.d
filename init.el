@@ -253,6 +253,9 @@
 (evil-leader/set-key "f" 'projectile-find-file)
 (evil-leader/set-key "a" 'ag-project)
 
+(evil-leader/set-key "gs" 'magit-status)
+(evil-leader/set-key "gb" 'magit-blame)
+
 (evil-leader/set-key "/" 'evilnc-comment-or-uncomment-lines)
 
 ; evil extension for html tag selection like matchit
@@ -400,7 +403,7 @@
 ; add s-n for opening a new window
 (global-set-key (kbd "s-n") 'new-frame)
 
-; file browser (useful especially for scala stuff with the huge directory tree)
+                                        ; file browser (useful especially for scala stuff with the huge directory tree)
 (require 'direx)
 (require 'popwin)
 (push '(direx:direx-mode :position left :width 25 :dedicated t)
