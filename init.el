@@ -255,6 +255,7 @@
 
 (evil-leader/set-key "gs" 'magit-status)
 (evil-leader/set-key "gb" 'magit-blame)
+(evil-leader/set-key "gr" 'magit-branch-manager)
 
 (evil-leader/set-key "/" 'evilnc-comment-or-uncomment-lines)
 
