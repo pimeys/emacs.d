@@ -14,3 +14,4 @@ server
 tramp
 .mc-lists.el
 *.elc
+projectile-bookmarks.eld

@@ -72,6 +72,7 @@
 (setq auto-mode-alist (cons '("\\.rake\\'" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("Gemfile" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("Rakefile" . ruby-mode) auto-mode-alist))
+(setq auto-mode-alist (cons '("\\_spec.rb\\'" . rspec-mode) auto-mode-alist))
 (add-hook 'ruby-mode-hook '(lambda () (font-lock-mode 1)))
 
 (setq frame-title-format '("%b %I %+%@%t%Z %m %n %e"))
@@ -256,6 +257,9 @@
 (evil-leader/set-key "gs" 'magit-status)
 (evil-leader/set-key "gb" 'magit-blame)
 (evil-leader/set-key "gr" 'magit-branch-manager)
+
+(evil-leader/set-key "rr" 'rspec-verify)
+(evil-leader/set-key "ra" 'rspec-verify-all)
 
 (evil-leader/set-key "/" 'evilnc-comment-or-uncomment-lines)
 
@@ -516,6 +520,7 @@
 (setq cider-auto-select-error-buffer t)
 (add-hook 'cider-repl-mode-hook 'paredit-mode)
 (add-hook 'cider-repl-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 
 (setq git-gutter-fr+-side 'right-fringe)
