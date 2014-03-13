@@ -72,7 +72,6 @@
 (setq auto-mode-alist (cons '("\\.rake\\'" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("Gemfile" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("Rakefile" . ruby-mode) auto-mode-alist))
-(setq auto-mode-alist (cons '("\\_spec.rb\\'" . rspec-mode) auto-mode-alist))
 (add-hook 'ruby-mode-hook '(lambda () (font-lock-mode 1)))
 
 (setq frame-title-format '("%b %I %+%@%t%Z %m %n %e"))
@@ -92,7 +91,7 @@
 (require 'helm)
 (require 'git-gutter-fringe+)
 
-;; Modes init (things that need more than just a require.) 
+;; Modes init (things that need more than just a require.)
 (when (string-match "Emacs 24" (version))
   ;; Only run elpa on E24
   (require 'init-elpa)
@@ -463,7 +462,7 @@
   scroll-preserve-screen-position 1
   jit-lock-defer-time 0.05
   font-lock-support-mode 'jit-lock-mode)
-(setq-default scroll-up-aggressively 0.01 scroll-down-aggressively 0.01) 
+(setq-default scroll-up-aggressively 0.01 scroll-down-aggressively 0.01)
 
 ;If you never expect to have to display bidirectional scripts, like
 ;Arabic, you can make that the default:
