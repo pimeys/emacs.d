@@ -77,6 +77,7 @@
 (setq frame-title-format '("%b %I %+%@%t%Z %m %n %e"))
 
 (setq x-select-enable-clipboard t)
+(global-set-key [mouse-2] 'mouse-yank-primary)
 
 ;; Explicitly require libs that autoload borks
 ;; Include common lisp:
