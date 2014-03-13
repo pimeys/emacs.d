@@ -92,7 +92,7 @@
 (require 'helm)
 (require 'git-gutter-fringe+)
 
-;; Modes init (things that need more than just a require.) 
+;; Modes init (things that need more than just a require.)
 (when (string-match "Emacs 24" (version))
   ;; Only run elpa on E24
   (require 'init-elpa)
@@ -239,6 +239,8 @@
 (evil-leader/set-key "n" 'new-buffer)
 
 (evil-leader/set-key "t" 'switch-to-previous-buffer)
+(evil-leader/set-key "y" 'x-clipboard-yank)
+(evil-leader/set-key "P" 'x-clipboard-kill-region)
 
 (evil-leader/set-key "re" 'recentf-open-files)
 (evil-leader/set-key "rl" 'revert-buffer)
@@ -463,7 +465,7 @@
   scroll-preserve-screen-position 1
   jit-lock-defer-time 0.05
   font-lock-support-mode 'jit-lock-mode)
-(setq-default scroll-up-aggressively 0.01 scroll-down-aggressively 0.01) 
+(setq-default scroll-up-aggressively 0.01 scroll-down-aggressively 0.01)
 
 ;If you never expect to have to display bidirectional scripts, like
 ;Arabic, you can make that the default:
