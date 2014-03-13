@@ -72,7 +72,6 @@
 (setq auto-mode-alist (cons '("\\.rake\\'" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("Gemfile" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("Rakefile" . ruby-mode) auto-mode-alist))
-(setq auto-mode-alist (cons '("\\_spec.rb\\'" . rspec-mode) auto-mode-alist))
 (add-hook 'ruby-mode-hook '(lambda () (font-lock-mode 1)))
 
 (setq frame-title-format '("%b %I %+%@%t%Z %m %n %e"))
