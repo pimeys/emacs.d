@@ -324,7 +324,6 @@
 (electric-indent-mode t)
 
 (modify-syntax-entry ?_ "w")
-(modify-syntax-entry ?_ "w" ruby-mode-syntax-table)
 
 (require 'init-hideshowvis)
 
