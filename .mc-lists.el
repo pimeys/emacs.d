@@ -25,6 +25,7 @@
         beginning-of-buffer
         cua-scroll-down
         end-of-buffer
+        evil-normal-state
         kill-region
         mac-mwheel-scroll
         ))
