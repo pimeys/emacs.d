@@ -99,6 +99,12 @@
       )))
 
 
+(defun insert-binding-pry ()
+  (interactive)
+  (insert "require 'pry' ; binding.pry ; ")
+  (c-indent-line-or-region)
+  )
+
 ; enclose word in tag
 (defun enclose-word-in-tag (tag)
   (interactive "stag:")
