@@ -95,7 +95,7 @@
 (when (string-match "Emacs 24" (version))
   ;; Only run elpa on E24
   (require 'init-elpa)
-)
+  )
 
 ;; -------------------------------------------------------------------------------------------------
 ;; Additional requires
@@ -200,6 +200,8 @@
 ;; Disable splash screen
 (setq inhibit-splash-screen t)
 
+(setq ensime-typecheck-when-idle nil)
+
 ;; Highlight current line
 
 ;; Highlight indent, for python, maybe more
@@ -258,6 +260,10 @@
 
 (evil-leader/set-key "rr" 'rspec-verify)
 (evil-leader/set-key "ra" 'rspec-verify-all)
+
+(evil-leader/set-key "er" 'ensime-refactor-rename)
+(evil-leader/set-key "em" 'ensime-refactor-extract-method)
+(evil-leader/set-key "ei" 'ensime-refactor-inline-local)
 
 (evil-leader/set-key "/" 'evilnc-comment-or-uncomment-lines)
 (evil-leader/set-key "r" 'insert-binding-pry)
@@ -512,7 +518,7 @@
 ; docs: https://github.com/clojure-emacs/cider
 ; C-c C-m : invoke macro-expand at point
 ; repl M-p M-n back forth history
-; repl C-j new line-indent
+                                        ; repl C-j new line-indent
 (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
 (setq nrepl-hide-special-buffers t)
 (setq cider-repl-pop-to-buffer-on-connect t)
